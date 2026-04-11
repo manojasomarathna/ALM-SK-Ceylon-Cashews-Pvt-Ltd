@@ -387,7 +387,7 @@ html{scroll-behavior:smooth}
         <div class="c-icon">📞</div>
         <div>
           <span class="c-label">Phone</span>
-          <span class="c-value">+94 XX XXX XXXX</span>
+          <span class="c-value">+94 78 381 9650</span>
         </div>
       </div>
       <div class="contact-item">
@@ -404,27 +404,27 @@ html{scroll-behavior:smooth}
           <span class="c-value">Sri Lanka 🇱🇰</span>
         </div>
       </div>
-      <button class="wa-btn" onclick="window.open('https://wa.me/94XXXXXXXXX','_blank')">WhatsApp Us Now</button>
+      <button class="wa-btn" onclick="window.open('https://wa.me/94783819650','_blank')">WhatsApp Us Now</button>
     </div>
     <div class="contact-form">
       <h3>Send an Inquiry</h3>
       <div class="form-row">
         <div>
           <label class="f-label">Full Name</label>
-          <input class="f-input" type="text" placeholder="Your name">
+          <input class="f-input" id="f-name" type="text" placeholder="Your name">
         </div>
         <div>
           <label class="f-label">Email</label>
-          <input class="f-input" type="email" placeholder="your@email.com">
+          <input class="f-input" id="f-email" type="email" placeholder="your@email.com">
         </div>
       </div>
       <div class="form-row-full">
         <label class="f-label">Phone Number</label>
-        <input class="f-input" type="tel" placeholder="+94 XX XXX XXXX">
+        <input class="f-input" id="f-phone" type="tel" placeholder="+94 XX XXX XXXX">
       </div>
       <div class="form-row-full">
         <label class="f-label">Inquiry Type</label>
-        <select class="f-select">
+        <select class="f-select" id="f-type">
           <option>Retail Order</option>
           <option>Bulk / Export Purchase</option>
           <option>Supplier Partnership</option>
@@ -433,9 +433,9 @@ html{scroll-behavior:smooth}
       </div>
       <div class="form-row-full">
         <label class="f-label">Message</label>
-        <textarea class="f-textarea" placeholder="Tell us how we can help you..."></textarea>
+        <textarea class="f-textarea" id="f-msg" placeholder="Tell us how we can help you..."></textarea>
       </div>
-      <button class="submit-btn">Send Inquiry</button>
+      <button class="submit-btn" onclick="sendInquiry()">Send Inquiry</button>
     </div>
   </div>
 </section>
@@ -474,3 +474,16 @@ html{scroll-behavior:smooth}
     <span class="footer-tagline">"Taste of Pure Ceylon"</span>
   </div>
 </footer>
+
+<script>
+function sendInquiry(){
+  var name=document.getElementById('f-name').value.trim();
+  var email=document.getElementById('f-email').value.trim();
+  var phone=document.getElementById('f-phone').value.trim();
+  var type=document.getElementById('f-type').value;
+  var msg=document.getElementById('f-msg').value.trim();
+  if(!name||!email||!phone||!msg){alert('Please fill in all fields.');return;}
+  var text='*New Inquiry - ALM SK Ceylon Cashews*%0A%0A*Name:* '+name+'%0A*Email:* '+email+'%0A*Phone:* '+phone+'%0A*Type:* '+type+'%0A*Message:* '+msg;
+  window.open('https://wa.me/94783819650?text='+text,'_blank');
+}
+</script>
