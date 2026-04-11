@@ -13,6 +13,10 @@ body{font-family:var(--font-sans);color:#2a1200}
 .nav-cta{background:#c8960c;color:#2a1200;font-size:12px;font-weight:500;padding:8px 18px;border-radius:4px;cursor:pointer;border:none;margin-left:16px}
 
 .hero{background:#1c0d00;padding:5rem 3rem;text-align:center}
+.hero-inner{display:flex;align-items:center;justify-content:center;gap:3rem;max-width:1000px;margin:0 auto;flex-wrap:wrap}
+.hero-content{flex:1;min-width:280px;text-align:left}
+.hero-img-wrap{flex:1;min-width:320px;max-width:520px;border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+.hero-img-wrap img{width:100%;height:420px;object-fit:cover;display:block}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(200,150,12,0.12);border:0.5px solid rgba(200,150,12,0.4);padding:6px 16px;border-radius:20px;margin-bottom:1.5rem}
 .hero-eyebrow span{color:#c8960c;font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase}
 .hero-dot{width:4px;height:4px;background:#c8960c;border-radius:50%}
@@ -167,6 +171,8 @@ html{scroll-behavior:smooth}
 </nav>
 
 <section id="home" class="hero">
+  <div class="hero-inner">
+  <div class="hero-content">
   <div class="hero-eyebrow">
     <div class="hero-dot"></div>
     <span>Premium Export Quality · Sri Lanka</span>
@@ -178,6 +184,11 @@ html{scroll-behavior:smooth}
   <div class="hero-actions">
     <button class="btn-gold" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Order Now</button>
     <button class="btn-ghost" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact Us</button>
+  </div>
+  </div>
+  <div class="hero-img-wrap">
+    <img src="BA_0824_SAM_FORE_TEST_107.webp" alt="ALM SK Ceylon Cashews">
+  </div>
   </div>
   <div class="hero-stats">
     <div class="stat">
@@ -220,14 +231,21 @@ html{scroll-behavior:smooth}
 
 <section id="about" class="sec sec-cream">
   <div class="sec-hdr">
-    <span class="sec-eye">Our Story</span>
-    <h2>About Us</h2>
-    <div class="gold-rule"></div>
-    <p>A family legacy built on tradition, trust, and the finest cashews Ceylon has to offer</p>
+    <div style="background:#3d1a00;border:1.5px solid #c8960c;border-radius:14px;padding:2rem 2.5rem;display:inline-block;box-shadow:0 4px 18px rgba(200,150,12,0.10);margin-bottom:2rem">
+      <span class="sec-eye">Our Story</span>
+      <h2 style="color:#f5e6c8">About Us</h2>
+      <div class="gold-rule"></div>
+      <p style="color:#c8a878">A family legacy built on tradition, trust, and the finest cashews Ceylon has to offer</p>
+    </div>
   </div>
   <div class="about-grid">
-    <div class="about-img" style="padding:0;overflow:hidden">
-      <img src="BA_0824_SAM_FORE_TEST_107.webp" alt="ALM SK Ceylon Cashews" style="width:100%;height:100%;object-fit:cover;border-radius:10px">
+    <div class="about-img">
+      <div class="about-crest">
+        <div class="crest-inner">
+          <span class="crest-text">ALM</span>
+        </div>
+      </div>
+      <div class="about-img-lbl">The Somarathna Family<br>Proud cashew farmers of Sri Lanka<br>Carrying forward a legacy of excellence</div>
     </div>
     <div class="about-copy">
       <h3>The Somarathna Family Legacy</h3>
@@ -246,10 +264,12 @@ html{scroll-behavior:smooth}
 
 <section id="products" class="sec sec-white">
   <div class="sec-hdr">
-    <span class="sec-eye">What We Offer</span>
-    <h2>Our Products</h2>
-    <div class="gold-rule"></div>
-    <p>Three exceptional ranges, each crafted to the highest standards of taste and quality</p>
+    <div style="background:#3d1a00;border:1.5px solid #c8960c;border-radius:14px;padding:2rem 2.5rem;display:inline-block;box-shadow:0 4px 18px rgba(200,150,12,0.10);margin-bottom:2rem">
+      <span class="sec-eye">What We Offer</span>
+      <h2 style="color:#f5e6c8">Our Products</h2>
+      <div class="gold-rule"></div>
+      <p style="color:#c8a878">Three exceptional ranges, each crafted to the highest standards of taste and quality</p>
+    </div>
   </div>
   <div class="products-grid">
     <div class="prod-card">
@@ -305,10 +325,12 @@ html{scroll-behavior:smooth}
 
 <section id="b2b" class="sec sec-cream">
   <div class="sec-hdr">
-    <span class="sec-eye">Business Partnerships</span>
-    <h2>B2B Hub</h2>
-    <div class="gold-rule"></div>
-    <p>Whether you supply raw cashews or purchase in bulk for export — we are your trusted partner in Ceylon</p>
+    <div style="background:#3d1a00;border:1.5px solid #c8960c;border-radius:14px;padding:2rem 2.5rem;display:inline-block;box-shadow:0 4px 18px rgba(200,150,12,0.10);margin-bottom:2rem">
+      <span class="sec-eye">Business Partnerships</span>
+      <h2 style="color:#f5e6c8">B2B Hub</h2>
+      <div class="gold-rule"></div>
+      <p style="color:#c8a878">Whether you supply raw cashews or purchase in bulk for export — we are your trusted partner in Ceylon</p>
+    </div>
   </div>
   <div class="b2b-grid">
     <div class="b2b-card">
@@ -346,10 +368,12 @@ html{scroll-behavior:smooth}
 
 <section id="gallery" class="sec sec-white">
   <div class="sec-hdr">
-    <span class="sec-eye">Visual Tour</span>
-    <h2>Gallery</h2>
-    <div class="gold-rule"></div>
-    <p>From farm to final packaging — a glimpse into our world</p>
+    <div style="background:#3d1a00;border:1.5px solid #c8960c;border-radius:14px;padding:2rem 2.5rem;display:inline-block;box-shadow:0 4px 18px rgba(200,150,12,0.10);margin-bottom:2rem">
+      <span class="sec-eye">Visual Tour</span>
+      <h2 style="color:#f5e6c8">Gallery</h2>
+      <div class="gold-rule"></div>
+      <p style="color:#c8a878">From farm to final packaging — a glimpse into our world</p>
+    </div>
   </div>
   <div class="gallery-grid">
     <div class="gal-item gal-1" style="padding:0;overflow:hidden">
@@ -375,10 +399,12 @@ html{scroll-behavior:smooth}
 
 <section id="order" class="sec sec-cream">
   <div class="sec-hdr">
-    <span class="sec-eye">Place Your Order</span>
-    <h2>📋 Order Form</h2>
-    <div class="gold-rule"></div>
-    <p>Fill this out and we'll confirm your order via WhatsApp or phone call.</p>
+    <div style="background:#3d1a00;border:1.5px solid #c8960c;border-radius:14px;padding:2rem 2.5rem;display:inline-block;box-shadow:0 4px 18px rgba(200,150,12,0.10);margin-bottom:2rem">
+      <span class="sec-eye">Place Your Order</span>
+      <h2 style="color:#f5e6c8">📋 Order Form</h2>
+      <div class="gold-rule"></div>
+      <p style="color:#c8a878">Fill this out and we'll confirm your order via WhatsApp or phone call.</p>
+    </div>
   </div>
   <div style="max-width:520px;margin:0 auto;background:#fff;border-radius:10px;padding:2rem;border:0.5px solid #e8d4b0">
     <div class="form-row">
@@ -441,7 +467,7 @@ html{scroll-behavior:smooth}
           <span class="c-value">+94 78 381 9650</span>
         </div>
       </div>
-      <div class="contact-item" onclick="window.open('https://mail.google.com/mail/?view=cm&to=almskceyloncashews@gmail.com','_blank')" style="cursor:pointer">
+      <div class="contact-item" onclick="window.open('https://mail.google.com/mail/?view=cm&fs=1&to=almskceyloncashews@gmail.com','_blank')" style="cursor:pointer">
         <div class="c-icon">✉️</div>
         <div>
           <span class="c-label">Email</span>
