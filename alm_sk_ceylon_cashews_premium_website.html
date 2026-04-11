@@ -12,11 +12,13 @@ body{font-family:var(--font-sans);color:#2a1200}
 .nav-link:hover,.nav-link.active{color:#c8960c;border-bottom-color:#c8960c}
 .nav-cta{background:#c8960c;color:#2a1200;font-size:12px;font-weight:500;padding:8px 18px;border-radius:4px;cursor:pointer;border:none;margin-left:16px}
 
-.hero{background:#1c0d00;padding:5rem 3rem;text-align:center}
-.hero-inner{display:flex;align-items:center;justify-content:center;gap:3rem;max-width:1000px;margin:0 auto;flex-wrap:wrap}
-.hero-content{flex:1;min-width:280px;text-align:left}
-.hero-img-wrap{flex:1;min-width:320px;max-width:520px;border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.4)}
-.hero-img-wrap img{width:100%;height:420px;object-fit:cover;display:block}
+.hero{background:#1c0d00;padding:5rem 3rem;text-align:center;position:relative;overflow:hidden;min-height:600px}
+.hero-bg{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0;animation:heroPop 1.5s ease forwards}
+.hero-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(28,13,0,0.65);z-index:1}
+.hero-inner{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;gap:3rem;max-width:1000px;margin:0 auto;flex-wrap:wrap}
+.hero-content{flex:1;min-width:280px;text-align:center}
+.hero-stats{position:relative;z-index:2;display:flex;justify-content:center;gap:0;border-top:0.5px solid rgba(200,150,12,0.2);padding-top:2.5rem;flex-wrap:wrap}
+@keyframes heroPop{0%{opacity:0;transform:scale(1.12)}100%{opacity:1;transform:scale(1)}}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(200,150,12,0.12);border:0.5px solid rgba(200,150,12,0.4);padding:6px 16px;border-radius:20px;margin-bottom:1.5rem}
 .hero-eyebrow span{color:#c8960c;font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase}
 .hero-dot{width:4px;height:4px;background:#c8960c;border-radius:50%}
@@ -153,7 +155,7 @@ html{scroll-behavior:smooth}
 
 <nav class="sticky-nav">
   <div class="brand">
-    <div class="brand-mark">A</div>
+    <img src="Logo.png" alt="ALM SK Ceylon Cashews Logo" style="height:48px;width:48px;object-fit:contain;border-radius:50%;background:#3d1a00;padding:4px;filter:sepia(1) saturate(2) hue-rotate(340deg) brightness(0.7)">
     <div class="brand-name">ALM SK Ceylon Cashews
       <small>(Pvt) Ltd — Est. Sri Lanka</small>
     </div>
@@ -167,10 +169,12 @@ html{scroll-behavior:smooth}
     <a class="nav-link" href="#order">Order</a>
     <a class="nav-link" href="#contact">Contact</a>
   </div>
-  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Order Now</button>
+  <button class="nav-cta" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">Order Now</button>
 </nav>
 
 <section id="home" class="hero">
+  <img class="hero-bg" src="wp4659250.jpg" alt="">
+  <div class="hero-overlay"></div>
   <div class="hero-inner">
   <div class="hero-content">
   <div class="hero-eyebrow">
@@ -180,15 +184,15 @@ html{scroll-behavior:smooth}
   </div>
   <h1>ALM SK <em>Ceylon</em><br>Cashews (Pvt) Ltd</h1>
   <div class="hero-tag">"Taste of Pure Ceylon"</div>
-  <p class="hero-desc">From the fertile soils of Sri Lanka to tables worldwide — we bring you the finest, freshest cashews, grown and processed with generations of care and expertise.</p>
+  <div style="background:rgba(42,18,0,0.7);border:0.5px solid rgba(200,150,12,0.4);border-radius:12px;padding:1.25rem 1.75rem;max-width:520px;margin:0 auto 2.5rem;backdrop-filter:blur(6px)">
+    <p class="hero-desc" style="margin:0">From the fertile soils of Sri Lanka to tables worldwide — we bring you the finest, freshest cashews, grown and processed with generations of care and expertise.</p>
+  </div>
   <div class="hero-actions">
-    <button class="btn-gold" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Order Now</button>
+    <button class="btn-gold" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">Order Now</button>
     <button class="btn-ghost" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact Us</button>
   </div>
   </div>
-  <div class="hero-img-wrap">
-    <img src="BA_0824_SAM_FORE_TEST_107.webp" alt="ALM SK Ceylon Cashews">
-  </div>
+
   </div>
   <div class="hero-stats">
     <div class="stat">
@@ -229,7 +233,9 @@ html{scroll-behavior:smooth}
   </div>
 </div>
 
-<section id="about" class="sec sec-cream">
+<section id="about" class="sec sec-cream" style="position:relative;overflow:hidden">
+  <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:url('about-as-service-contact-information-concept_53876-138509.avif');background-size:cover;background-position:center;opacity:0.65;z-index:0"></div>
+  <div style="position:relative;z-index:1">
   <div class="sec-hdr">
     <div style="background:#3d1a00;border:1.5px solid #c8960c;border-radius:14px;padding:2rem 2.5rem;display:inline-block;box-shadow:0 4px 18px rgba(200,150,12,0.10);margin-bottom:2rem">
       <span class="sec-eye">Our Story</span>
@@ -259,6 +265,7 @@ html{scroll-behavior:smooth}
         <span class="val-badge">Family Owned</span>
       </div>
     </div>
+  </div>
   </div>
 </section>
 
@@ -581,6 +588,24 @@ function sendOrder(){
   setTimeout(function(){document.getElementById('order-success').style.display='none';},5000);
 }
 
+function replayHero(){
+  var bg=document.querySelector('.hero-bg');
+  if(!bg)return;
+  bg.style.animation='none';
+  bg.offsetHeight;
+  bg.style.animation='heroPop 1.5s ease forwards';
+}
+document.addEventListener('visibilitychange',function(){
+  if(!document.hidden)replayHero();
+});
+window.addEventListener('focus',replayHero);
+var heroObserver=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting)replayHero();});
+},{threshold:0.3});
+var heroSec=document.getElementById('home');
+if(heroSec)heroObserver.observe(heroSec);
+
+function sendInquiry(){
   var name=document.getElementById('f-name').value.trim();
   var email=document.getElementById('f-email').value.trim();
   var phone=document.getElementById('f-phone').value.trim();
