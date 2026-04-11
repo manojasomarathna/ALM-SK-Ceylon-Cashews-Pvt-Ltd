@@ -401,13 +401,18 @@ html{scroll-behavior:smooth}
         <div class="c-icon">📍</div>
         <div>
           <span class="c-label">Location</span>
-          <span class="c-value">Sri Lanka 🇱🇰</span>
+          <span class="c-value">Diulwewa, Anamaduwa, Kurunegala 🇱🇰</span>
         </div>
       </div>
       <button class="wa-btn" onclick="window.open('https://wa.me/94783819650','_blank')">WhatsApp Us Now</button>
     </div>
     <div class="contact-form">
       <h3>Send an Inquiry</h3>
+      <div id="form-success" style="display:none;background:#e6f9ee;border:1px solid #25D366;border-radius:8px;padding:1.5rem;text-align:center;margin-bottom:1rem">
+        <div style="font-size:32px;margin-bottom:0.5rem">✅</div>
+        <div style="font-size:15px;font-weight:600;color:#1a7a3a;margin-bottom:0.25rem">Inquiry Sent Successfully!</div>
+        <div style="font-size:12px;color:#2a7a4a">We'll get back to you within 24 hours.</div>
+      </div>
       <div class="form-row">
         <div>
           <label class="f-label">Full Name</label>
@@ -485,5 +490,11 @@ function sendInquiry(){
   if(!name||!email||!phone||!msg){alert('Please fill in all fields.');return;}
   var text='*New Inquiry - ALM SK Ceylon Cashews*%0A%0A*Name:* '+name+'%0A*Email:* '+email+'%0A*Phone:* '+phone+'%0A*Type:* '+type+'%0A*Message:* '+msg;
   window.open('https://wa.me/94783819650?text='+text,'_blank');
+  document.getElementById('f-name').value='';
+  document.getElementById('f-email').value='';
+  document.getElementById('f-phone').value='';
+  document.getElementById('f-msg').value='';
+  document.getElementById('form-success').style.display='block';
+  setTimeout(function(){document.getElementById('form-success').style.display='none';},5000);
 }
 </script>
