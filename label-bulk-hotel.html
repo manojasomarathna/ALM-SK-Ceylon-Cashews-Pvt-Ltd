@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ALM SK Ceylon Cashews - Bulk Label</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#f0f0f0;display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:'Georgia',serif;padding:2rem}
+
+  .label{
+    width:150mm;
+    min-height:100mm;
+    background:linear-gradient(160deg,#1a0800 0%,#3d1a00 40%,#1a0800 100%);
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 8px 32px rgba(0,0,0,0.4);
+    display:flex;
+    flex-direction:column;
+  }
+
+  .top-border{height:6px;background:linear-gradient(90deg,#8B6914,#c8960c,#f5d060,#c8960c,#8B6914)}
+
+  /* Header */
+  .header{padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid rgba(200,150,12,0.3)}
+  .logo-row{display:flex;align-items:center;gap:8px}
+  .logo-img{width:40px;height:40px;object-fit:contain;border-radius:50%;background:#2a1200;padding:2px}
+  .brand{color:#f5e6c8;font-size:10px;font-weight:700;letter-spacing:0.06em;line-height:1.4}
+  .brand small{display:block;color:#c8960c;font-size:7.5px;font-weight:400}
+  .bulk-badge{background:#c8960c;color:#1a0800;font-size:8px;font-weight:700;padding:4px 10px;border-radius:4px;letter-spacing:0.1em;text-transform:uppercase}
+
+  /* Main content */
+  .main{display:flex;flex:1}
+
+  /* Left - product info */
+  .left{flex:1.2;padding:12px 16px;border-right:0.5px solid rgba(200,150,12,0.2)}
+  .product-tag{background:rgba(200,150,12,0.15);border:0.5px solid rgba(200,150,12,0.4);color:#c8960c;font-size:7px;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:0.1em;text-transform:uppercase;display:inline-block;margin-bottom:6px}
+  .product-name{color:#f5e6c8;font-size:20px;font-weight:700;line-height:1.2;margin-bottom:2px}
+  .product-name-si{color:#c8a878;font-size:11px;margin-bottom:8px;display:block}
+  .gold-line{width:40px;height:2px;background:#c8960c;margin-bottom:8px}
+  .features{display:flex;flex-direction:column;gap:3px}
+  .feat{color:#c8a878;font-size:7.5px;display:flex;align-items:center;gap:5px}
+  .feat-dot{width:4px;height:4px;background:#c8960c;border-radius:50%;flex-shrink:0}
+
+  /* Right - details */
+  .right{flex:1;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+  .detail-block{}
+  .detail-label{color:#c8960c;font-size:6.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;display:block;margin-bottom:2px}
+  .detail-val{color:#f5e6c8;font-size:9px;font-weight:600;display:block}
+  .detail-val-lg{color:#c8960c;font-size:18px;font-weight:700;display:block;line-height:1}
+  .detail-sub{color:#8a5828;font-size:7px;display:block}
+  .divider{height:0.5px;background:rgba(200,150,12,0.2)}
+  .grade-badge{background:rgba(200,150,12,0.12);border:0.5px solid rgba(200,150,12,0.3);border-radius:3px;padding:3px 8px;display:inline-block}
+
+  /* Footer */
+  .footer{padding:7px 16px;border-top:0.5px solid rgba(200,150,12,0.2);display:flex;justify-content:space-between;align-items:center}
+  .contact{color:#8a5828;font-size:6.5px;line-height:1.6}
+  .contact span{color:#c8960c}
+  .origin{color:#c8960c;font-size:7px;font-weight:700;letter-spacing:0.06em}
+  .storage{background:rgba(200,150,12,0.08);border:0.5px solid rgba(200,150,12,0.15);border-radius:3px;padding:2px 8px;color:#a07848;font-size:6.5px}
+
+  .bottom-border{height:6px;background:linear-gradient(90deg,#8B6914,#c8960c,#f5d060,#c8960c,#8B6914)}
+
+  @media print{
+    body{background:#fff;padding:0}
+    .label{box-shadow:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="label">
+  <div class="top-border"></div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo-row">
+      <img class="logo-img" src="Logo.png" alt="Logo">
+      <div class="brand">
+        ALM SK Ceylon Cashews
+        <small>(Pvt) Ltd — Est. Sri Lanka</small>
+      </div>
+    </div>
+    <div class="bulk-badge">📦 Bulk Supply</div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- Left -->
+    <div class="left">
+      <span class="product-tag">⭐ Premium Grade</span>
+      <div class="product-name">Roasted<br>Cashews</div>
+      <span class="product-name-si">බදින ලද කජු — තොග</span>
+      <div class="gold-line"></div>
+      <div class="features">
+        <div class="feat"><span class="feat-dot"></span>Slow roasted — traditional method</div>
+        <div class="feat"><span class="feat-dot"></span>100% Ceylon origin cashews</div>
+        <div class="feat"><span class="feat-dot"></span>No artificial preservatives</div>
+        <div class="feat"><span class="feat-dot"></span>Hygienically processed & packed</div>
+        <div class="feat"><span class="feat-dot"></span>Suitable for Hotels & Restaurants</div>
+        <div class="feat"><span class="feat-dot"></span>Consistent quality, bulk supply</div>
+      </div>
+    </div>
+
+    <!-- Right -->
+    <div class="right">
+      <div class="detail-block">
+        <span class="detail-label">Net Weight</span>
+        <span class="detail-val-lg">______</span>
+        <span class="detail-sub">kg / g</span>
+      </div>
+      <div class="divider"></div>
+      <div class="detail-block">
+        <span class="detail-label">Grade</span>
+        <div class="grade-badge">
+          <span class="detail-val">W240 / W320</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="detail-block">
+        <span class="detail-label">Batch No.</span>
+        <span class="detail-val">______</span>
+      </div>
+      <div class="detail-block">
+        <span class="detail-label">Packed On</span>
+        <span class="detail-val">______</span>
+      </div>
+      <div class="detail-block">
+        <span class="detail-label">Best Before</span>
+        <span class="detail-val">6 Months</span>
+      </div>
+      <div class="divider"></div>
+      <div class="detail-block">
+        <span class="detail-label">Order / Reorder</span>
+        <span class="detail-val">+94 78 381 9650</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="contact">
+      <span>Manufactured by:</span> ALM SK Ceylon Cashews (Pvt) Ltd<br>
+      Diulwewa, Anamaduwa, Kurunegala, Sri Lanka<br>
+      <span>✉</span> almskceyloncashews@gmail.com · <span>🌐</span> almskceyloncashews.netlify.app
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+      <div class="storage">🌡️ Store in cool, dry place</div>
+      <div class="origin">🇱🇰 Product of Sri Lanka</div>
+    </div>
+  </div>
+
+  <div class="bottom-border"></div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ALM SK Ceylon Cashews - Label</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#f0f0f0;display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:'Georgia',serif;padding:2rem}
+
+  .label{
+    width:100mm;
+    min-height:130mm;
+    background:linear-gradient(160deg,#1a0800 0%,#3d1a00 40%,#1a0800 100%);
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 8px 32px rgba(0,0,0,0.4);
+    position:relative;
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* Top gold border */
+  .label-top-border{height:6px;background:linear-gradient(90deg,#8B6914,#c8960c,#f5d060,#c8960c,#8B6914)}
+
+  /* Header */
+  .label-header{padding:10px 12px 8px;text-align:center;border-bottom:0.5px solid rgba(200,150,12,0.3)}
+  .logo-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:6px}
+  .logo-img{width:36px;height:36px;object-fit:contain;border-radius:50%;background:#2a1200;padding:2px}
+  .brand-name{color:#f5e6c8;font-size:9px;font-weight:700;letter-spacing:0.08em;text-align:left;line-height:1.4}
+  .brand-name small{display:block;color:#c8960c;font-size:7px;font-weight:400}
+
+  /* Product image area */
+  .product-img-area{position:relative;height:52mm;overflow:hidden}
+  .product-img-area img{width:100%;height:100%;object-fit:cover;opacity:0.85}
+  .product-img-overlay{position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(transparent,rgba(26,8,0,0.9))}
+
+  /* Product name overlay */
+  .product-name-overlay{position:absolute;bottom:8px;left:0;right:0;text-align:center;padding:0 10px}
+  .product-tag{background:#c8960c;color:#1a0800;font-size:7px;font-weight:700;padding:2px 10px;border-radius:10px;letter-spacing:0.1em;text-transform:uppercase;display:inline-block;margin-bottom:4px}
+  .product-name{color:#f5e6c8;font-size:16px;font-weight:700;letter-spacing:0.02em;display:block;text-shadow:0 2px 4px rgba(0,0,0,0.5)}
+  .product-name-si{color:#c8a878;font-size:10px;display:block;margin-top:2px}
+
+  /* Middle section */
+  .label-middle{padding:8px 12px;border-bottom:0.5px solid rgba(200,150,12,0.2)}
+  .tagline{color:#c8960c;font-size:8px;font-style:italic;text-align:center;letter-spacing:0.06em;margin-bottom:6px}
+  .features{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+  .feat{background:rgba(200,150,12,0.12);border:0.5px solid rgba(200,150,12,0.3);border-radius:3px;padding:3px 7px;color:#c8a878;font-size:7px;letter-spacing:0.05em}
+
+  /* Nutrition */
+  .nutrition{padding:6px 12px;border-bottom:0.5px solid rgba(200,150,12,0.2)}
+  .nutrition-title{color:#c8960c;font-size:7px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px}
+  .nutrition-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px}
+  .nut-item{background:rgba(255,255,255,0.05);border-radius:3px;padding:3px;text-align:center}
+  .nut-val{color:#f5e6c8;font-size:8px;font-weight:700;display:block}
+  .nut-lbl{color:#8a5828;font-size:6px;display:block}
+
+  /* Ingredients */
+  .ingredients{padding:5px 12px;border-bottom:0.5px solid rgba(200,150,12,0.2)}
+  .ing-title{color:#c8960c;font-size:7px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:2px}
+  .ing-text{color:#c8a878;font-size:7px;line-height:1.5}
+
+  /* Footer info */
+  .label-footer{padding:6px 12px 8px;margin-top:auto}
+  .info-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .info-block .info-label{color:#c8960c;font-size:6px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;display:block}
+  .info-block .info-val{color:#f5e6c8;font-size:7px;display:block;line-height:1.4}
+  .weight-badge{background:#c8960c;color:#1a0800;font-size:14px;font-weight:700;padding:4px 10px;border-radius:4px;letter-spacing:0.05em}
+  .mfg-info{color:#8a5828;font-size:6.5px;line-height:1.6;margin-top:4px}
+  .storage{background:rgba(200,150,12,0.08);border:0.5px solid rgba(200,150,12,0.2);border-radius:3px;padding:3px 6px;color:#a07848;font-size:6.5px;margin-top:4px;text-align:center}
+  .origin{display:flex;align-items:center;justify-content:center;gap:4px;margin-top:5px}
+  .origin span{color:#c8960c;font-size:7px;font-weight:700;letter-spacing:0.08em}
+
+  /* Bottom gold border */
+  .label-bottom-border{height:6px;background:linear-gradient(90deg,#8B6914,#c8960c,#f5d060,#c8960c,#8B6914)}
+
+  /* Print styles */
+  @media print{
+    body{background:#fff;padding:0}
+    .label{box-shadow:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="label">
+  <div class="label-top-border"></div>
+
+  <!-- Header -->
+  <div class="label-header">
+    <div class="logo-row">
+      <img class="logo-img" src="Logo.png" alt="Logo">
+      <div class="brand-name">
+        ALM SK Ceylon Cashews
+        <small>(Pvt) Ltd — Sri Lanka</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Image -->
+  <div class="product-img-area">
+    <img src="roastedcashew22_500x.webp" alt="Roasted Cashews">
+    <div class="product-img-overlay"></div>
+    <div class="product-name-overlay">
+      <span class="product-tag">⭐ Best Seller</span>
+      <span class="product-name">Roasted Cashews</span>
+      <span class="product-name-si">බදින ලද කජු</span>
+    </div>
+  </div>
+
+  <!-- Middle -->
+  <div class="label-middle">
+    <div class="tagline">"Taste of Pure Ceylon" — Slow roasted to golden perfection</div>
+    <div class="features">
+      <span class="feat">🌿 No Additives</span>
+      <span class="feat">✋ Hand Selected</span>
+      <span class="feat">🇱🇰 Ceylon Origin</span>
+      <span class="feat">🔥 Slow Roasted</span>
+    </div>
+  </div>
+
+  <!-- Nutrition -->
+  <div class="nutrition">
+    <div class="nutrition-title">Nutrition Info (per 100g)</div>
+    <div class="nutrition-grid">
+      <div class="nut-item"><span class="nut-val">553</span><span class="nut-lbl">Calories</span></div>
+      <div class="nut-item"><span class="nut-val">44g</span><span class="nut-lbl">Total Fat</span></div>
+      <div class="nut-item"><span class="nut-val">18g</span><span class="nut-lbl">Protein</span></div>
+      <div class="nut-item"><span class="nut-val">30g</span><span class="nut-lbl">Carbs</span></div>
+    </div>
+  </div>
+
+  <!-- Ingredients -->
+  <div class="ingredients">
+    <div class="ing-title">Ingredients / අමුද්රව්ය</div>
+    <div class="ing-text">Cashew Nuts (100%) — කජු ඇට (100%)<br>Lightly salted · ලුණු සහිතයි</div>
+  </div>
+
+  <!-- Footer -->
+  <div class="label-footer">
+    <div class="info-row">
+      <div class="info-block">
+        <span class="info-label">Best Before</span>
+        <span class="info-val">6 Months from MFG</span>
+        <span class="info-label" style="margin-top:4px">Batch No.</span>
+        <span class="info-val">______</span>
+      </div>
+      <div class="weight-badge">100g</div>
+    </div>
+    <div class="mfg-info">
+      Manufactured by: ALM SK Ceylon Cashews (Pvt) Ltd<br>
+      Diulwewa, Anamaduwa, Kurunegala, Sri Lanka<br>
+      📞 +94 78 381 9650 · almskceyloncashews@gmail.com
+    </div>
+    <div class="storage">🌡️ Store in a cool, dry place away from direct sunlight</div>
+    <div class="origin">
+      <span>🇱🇰 Product of Sri Lanka</span>
+    </div>
+  </div>
+
+  <div class="label-bottom-border"></div>
+</div>
+
+</body>
+</html>
