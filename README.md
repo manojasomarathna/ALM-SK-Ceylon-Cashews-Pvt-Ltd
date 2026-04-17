@@ -8,7 +8,7 @@ Premium quality Sri Lankan cashews for local and international markets. Family o
 
 ## 🌐 Live Website
 
-👉 [https://manojasomarathna.github.io/ALM-SK-Ceylon-Cashews-Pvt-Ltd/](https://manojasomarathna.github.io/ALM-SK-Ceylon-Cashews-Pvt-Ltd/)
+👉 [https://almskceyloncashews.netlify.app/](https://almskceyloncashews.netlify.app/)
 
 ---
 
