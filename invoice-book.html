@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALM SK Cashews — Invoice Book</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #FAF6EF;
+  --cream2: #F3EDE1;
+  --brown-dark: #2C1A0E;
+  --brown: #5A3E1B;
+  --brown-mid: #7D5A30;
+  --brown-light: #B8916A;
+  --brown-pale: #D4B896;
+  --gold: #C49A3C;
+  --gold-light: #E8C96A;
+  --green: #2D5A27;
+  --green-light: #EAF3E8;
+  --red: #8B2020;
+  --red-light: #FCEBEB;
+  --amber-light: #FDF5E0;
+  --border: rgba(90,62,27,0.15);
+  --border-strong: rgba(90,62,27,0.3);
+  --shadow: 0 2px 20px rgba(44,26,14,0.08);
+  --shadow-lg: 0 8px 40px rgba(44,26,14,0.14);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--brown-dark);
+  min-height: 100vh;
+}
+
+/* ── BACKGROUND PATTERN ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 15% 15%, rgba(196,154,60,0.06) 0%, transparent 50%),
+    radial-gradient(circle at 85% 80%, rgba(90,62,27,0.06) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+
+/* ── HEADER ── */
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 36px;
+  padding-bottom: 24px;
+  border-bottom: 1.5px solid var(--border);
+}
+.header-left { display: flex; align-items: center; gap: 16px; }
+.logo-mark {
+  width: 52px; height: 52px;
+  background: var(--brown);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  box-shadow: 0 4px 16px rgba(90,62,27,0.3);
+}
+.company-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--brown);
+  letter-spacing: -0.3px;
+  line-height: 1.1;
+}
+.company-sub {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--brown-light);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.header-stats {
+  display: flex;
+  gap: 24px;
+}
+.hstat {
+  text-align: right;
+}
+.hstat-val {
+  font-family: 'DM Mono', monospace;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--brown);
+}
+.hstat-lbl {
+  font-size: 10px;
+  color: var(--brown-light);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-top: 1px;
+}
+
+/* ── TABS ── */
+.tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--cream2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 28px;
+  width: fit-content;
+}
+.tab {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 20px;
+  border-radius: 9px;
+  border: none;
+  background: transparent;
+  color: var(--brown-light);
+  cursor: pointer;
+  transition: all 0.18s ease;
+  letter-spacing: 0.01em;
+}
+.tab:hover { color: var(--brown); }
+.tab.active {
+  background: var(--brown);
+  color: var(--cream);
+  box-shadow: 0 2px 8px rgba(90,62,27,0.3);
+}
+
+/* ── PANELS ── */
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* ── FORM CARD ── */
+.form-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 28px 32px;
+  box-shadow: var(--shadow);
+}
+.form-section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--brown);
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.form-section-title::before {
+  content: '';
+  width: 3px;
+  height: 16px;
+  background: var(--gold);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.field-grid { display: grid; gap: 16px; margin-bottom: 20px; }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--brown-light);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+.field input, .field select, .field textarea {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 400;
+  color: var(--brown-dark);
+  background: var(--cream);
+  border: 1px solid var(--border-strong);
+  border-radius: 9px;
+  padding: 9px 13px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  width: 100%;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--brown-mid);
+  box-shadow: 0 0 0 3px rgba(90,62,27,0.08);
+  background: #fff;
+}
+.field textarea { resize: vertical; min-height: 72px; }
+select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A3E1B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+
+.type-toggle {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: 9px;
+  overflow: hidden;
+}
+.type-btn {
+  flex: 1;
+  border: none;
+  background: var(--cream);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 9px 0;
+  cursor: pointer;
+  color: var(--brown-light);
+  transition: all 0.15s;
+}
+.type-btn:first-child { border-right: 1px solid var(--border-strong); }
+.type-btn.active-buyer { background: #1A4A8A; color: #fff; }
+.type-btn.active-supplier { background: var(--brown); color: #fff; }
+
+.btn-row { display: flex; gap: 10px; margin-top: 24px; }
+.btn-primary {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 11px 28px;
+  background: var(--brown);
+  color: var(--cream);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  transition: all 0.15s;
+  box-shadow: 0 3px 12px rgba(90,62,27,0.25);
+}
+.btn-primary:hover { background: var(--brown-mid); transform: translateY(-1px); box-shadow: 0 5px 16px rgba(90,62,27,0.3); }
+.btn-secondary {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  padding: 10px 20px;
+  background: transparent;
+  color: var(--brown-light);
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-secondary:hover { background: var(--cream2); color: var(--brown); }
+
+/* ── FILTER BAR ── */
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.filter-bar input, .filter-bar select {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  padding: 7px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--brown-dark);
+  outline: none;
+}
+.filter-bar input:focus, .filter-bar select:focus {
+  border-color: var(--brown-mid);
+}
+.filter-bar .search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 180px;
+}
+.filter-bar .search-wrap input {
+  width: 100%;
+  padding-left: 36px;
+}
+.search-icon {
+  position: absolute;
+  left: 11px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--brown-pale);
+  font-size: 14px;
+  pointer-events: none;
+}
+.action-btns { display: flex; gap: 8px; margin-left: auto; }
+.btn-sm {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1px solid var(--border-strong);
+  background: #fff;
+  color: var(--brown);
+}
+.btn-sm:hover { background: var(--cream2); }
+.btn-sm.print { background: var(--brown); color: #fff; border-color: var(--brown); }
+.btn-sm.print:hover { background: var(--brown-mid); }
+
+/* ── TABLE ── */
+.table-wrap {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead { background: var(--brown-dark); }
+th {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--brown-pale);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 13px 14px;
+  text-align: left;
+  white-space: nowrap;
+}
+td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+  color: var(--brown-dark);
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--cream); }
+tr.row-paid td { background: rgba(234,243,232,0.4); }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.badge-buyer { background: #E6EEF8; color: #1A4A8A; }
+.badge-supplier { background: #F3EDE1; color: var(--brown); }
+.badge-paid { background: var(--green-light); color: var(--green); }
+.badge-partial { background: var(--amber-light); color: #7A5A00; }
+.badge-unpaid { background: var(--red-light); color: var(--red); }
+
+.mono { font-family: 'DM Mono', monospace; font-size: 12.5px; }
+.text-right { text-align: right; }
+.text-green { color: var(--green); }
+.text-amber { color: #7A5A00; }
+.text-red { color: var(--red); }
+.text-muted { color: var(--brown-light); font-size: 12px; }
+
+.del-btn {
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 6px;
+  border: 1px solid #F7C1C1;
+  background: var(--red-light);
+  color: var(--red);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.13s;
+}
+.del-btn:hover { background: #F7C1C1; }
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--brown-light);
+}
+.empty-state svg { width: 48px; height: 48px; margin-bottom: 12px; opacity: 0.3; }
+.empty-state p { font-size: 14px; }
+
+/* ── SUMMARY ── */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 20px;
+  box-shadow: var(--shadow);
+}
+.stat-card .icon {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.stat-card .lbl {
+  font-size: 11px;
+  color: var(--brown-light);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 5px;
+}
+.stat-card .val {
+  font-family: 'DM Mono', monospace;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--brown-dark);
+}
+.stat-card .val.green { color: var(--green); }
+.stat-card .val.amber { color: #7A5A00; }
+.stat-card .val.red { color: var(--red); }
+
+.stat-card.accent {
+  background: var(--brown);
+  border-color: var(--brown);
+}
+.stat-card.accent .lbl { color: var(--brown-pale); }
+.stat-card.accent .val { color: #fff; }
+
+.party-table-wrap {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+/* ── INVOICE PRINT VIEW ── */
+#print-panel { display: none; }
+
+/* ── PRINT STYLES ── */
+@media print {
+  body { background: #fff; }
+  body::before { display: none; }
+  .app { padding: 0; max-width: 100%; }
+  .no-print { display: none !important; }
+  .panel { display: block !important; }
+  #panel-list { display: none !important; }
+  #panel-summary { display: none !important; }
+  #panel-add { display: none !important; }
+  .table-wrap { box-shadow: none; border: 1px solid #ddd; border-radius: 0; }
+  .print-show { display: block !important; }
+  thead { background: #2C1A0E !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .grid-3, .grid-4 { grid-template-columns: 1fr 1fr; }
+  .summary-grid { grid-template-columns: 1fr 1fr; }
+  .header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .header-stats { gap: 16px; }
+}
+@media (max-width: 480px) {
+  .grid-3, .grid-4, .grid-2 { grid-template-columns: 1fr; }
+  .summary-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- HEADER -->
+  <header class="header no-print">
+    <div class="header-left">
+      <div class="logo-mark">🥜</div>
+      <div>
+        <div class="company-name">ALM SK Cashews</div>
+        <div class="company-sub">Invoice & Ledger Book</div>
+      </div>
+    </div>
+    <div class="header-stats">
+      <div class="hstat">
+        <div class="hstat-val" id="h-total">0</div>
+        <div class="hstat-lbl">Invoices</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val" id="h-receivable" style="color:var(--gold)">Rs 0</div>
+        <div class="hstat-lbl">Receivable</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val" id="h-payable" style="color:var(--brown-light)">Rs 0</div>
+        <div class="hstat-lbl">Payable</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- TABS -->
+  <div class="tabs no-print">
+    <button class="tab active" onclick="switchTab('add')">＋ New Record</button>
+    <button class="tab" onclick="switchTab('list')">📋 Invoice Book</button>
+    <button class="tab" onclick="switchTab('summary')">📊 Summary</button>
+  </div>
+
+  <!-- ADD PANEL -->
+  <div id="panel-add" class="panel active">
+    <div class="form-card">
+      <div class="form-section-title">Party Details</div>
+      <div class="field-grid grid-3">
+        <div class="field">
+          <label>Transaction Type</label>
+          <div class="type-toggle">
+            <button class="type-btn active-buyer" id="btn-buyer" onclick="setType('Buyer')">🛒 Buyer</button>
+            <button class="type-btn" id="btn-supplier" onclick="setType('Supplier')">📦 Supplier</button>
+          </div>
+          <input type="hidden" id="f-type" value="Buyer">
+        </div>
+        <div class="field">
+          <label>Name</label>
+          <input id="f-name" placeholder="Party name" list="name-list">
+          <datalist id="name-list"></datalist>
+        </div>
+        <div class="field">
+          <label>Contact / Address</label>
+          <input id="f-contact" placeholder="Phone or address">
+        </div>
+      </div>
+
+      <div class="form-section-title" style="margin-top:8px;">Invoice Details</div>
+      <div class="field-grid grid-4">
+        <div class="field">
+          <label>Invoice No</label>
+          <input id="f-inv" placeholder="INV-001">
+        </div>
+        <div class="field">
+          <label>Date</label>
+          <input type="date" id="f-date">
+        </div>
+        <div class="field">
+          <label>Cashew Grade / Product</label>
+          <input id="f-product" placeholder="W320, W240, LP…" list="grade-list">
+          <datalist id="grade-list">
+            <option value="W180"><option value="W210"><option value="W240">
+            <option value="W320"><option value="W450"><option value="LP">
+            <option value="SP"><option value="BB"><option value="SSW">
+          </datalist>
+        </div>
+        <div class="field">
+          <label>Quantity (Kg)</label>
+          <input type="number" id="f-qty" placeholder="0" min="0" step="0.1">
+        </div>
+      </div>
+      <div class="field-grid grid-4">
+        <div class="field">
+          <label>Rate per Kg (Rs)</label>
+          <input type="number" id="f-rate" placeholder="0" min="0" oninput="calcTotal()">
+        </div>
+        <div class="field">
+          <label>Invoice Amount (Rs)</label>
+          <input type="number" id="f-amount" placeholder="0.00" min="0">
+        </div>
+        <div class="field">
+          <label id="paid-lbl">Amount Received (Rs)</label>
+          <input type="number" id="f-paid" placeholder="0.00" min="0">
+        </div>
+        <div class="field">
+          <label>Payment Method</label>
+          <select id="f-method">
+            <option value="">— Select —</option>
+            <option>Cash</option>
+            <option>Bank Transfer</option>
+            <option>Cheque</option>
+            <option>Online Pay</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-grid grid-2">
+        <div class="field">
+          <label>Cheque / Reference No</label>
+          <input id="f-ref" placeholder="Optional reference">
+        </div>
+        <div class="field">
+          <label>Notes / Remarks</label>
+          <textarea id="f-notes" placeholder="Any additional remarks…"></textarea>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-primary" onclick="saveRecord()">Save Record</button>
+        <button class="btn-secondary" onclick="clearForm()">Clear Form</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIST PANEL -->
+  <div id="panel-list" class="panel">
+    <div class="filter-bar no-print">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input id="f-search" placeholder="Search name, invoice, product…" oninput="renderList()">
+      </div>
+      <select id="f-ftype" onchange="renderList()">
+        <option value="">All Types</option>
+        <option value="Buyer">Buyer</option>
+        <option value="Supplier">Supplier</option>
+      </select>
+      <select id="f-fstatus" onchange="renderList()">
+        <option value="">All Status</option>
+        <option value="Paid">Paid</option>
+        <option value="Partial">Partial</option>
+        <option value="Unpaid">Unpaid</option>
+      </select>
+      <input type="month" id="f-fmonth" onchange="renderList()" title="Filter by month">
+      <div class="action-btns">
+        <button class="btn-sm" onclick="exportCSV()">⬇ CSV</button>
+        <button class="btn-sm print" onclick="window.print()">🖨 Print</button>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Name</th>
+            <th>Invoice</th>
+            <th>Product</th>
+            <th>Kg</th>
+            <th class="text-right">Amount</th>
+            <th class="text-right">Paid</th>
+            <th class="text-right">Balance</th>
+            <th>Status</th>
+            <th>Method</th>
+            <th class="no-print">Action</th>
+          </tr>
+        </thead>
+        <tbody id="records-body"></tbody>
+      </table>
+      <div id="list-empty" class="empty-state" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        <p>No records found.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUMMARY PANEL -->
+  <div id="panel-summary" class="panel">
+    <div class="summary-grid">
+      <div class="stat-card accent">
+        <div class="icon">📋</div>
+        <div class="lbl">Total Invoices</div>
+        <div class="val" id="s-count">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="icon">💰</div>
+        <div class="lbl">Buyer Receivable</div>
+        <div class="val amber" id="s-buyer-bal">Rs 0</div>
+      </div>
+      <div class="stat-card">
+        <div class="icon">🏦</div>
+        <div class="lbl">Supplier Payable</div>
+        <div class="val amber" id="s-sup-bal">Rs 0</div>
+      </div>
+      <div class="stat-card">
+        <div class="icon">✅</div>
+        <div class="lbl">Collected from Buyers</div>
+        <div class="val green" id="s-buyer-paid">Rs 0</div>
+      </div>
+    </div>
+    <div class="summary-grid" style="grid-template-columns: repeat(2,1fr);">
+      <div class="stat-card">
+        <div class="lbl">Total Buyer Invoiced</div>
+        <div class="val" id="s-buyer-inv">Rs 0</div>
+      </div>
+      <div class="stat-card">
+        <div class="lbl">Total Supplier Invoiced</div>
+        <div class="val" id="s-sup-inv">Rs 0</div>
+      </div>
+    </div>
+
+    <div class="party-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Contact</th>
+            <th>Invoices</th>
+            <th>Total Kg</th>
+            <th class="text-right">Total Amount</th>
+            <th class="text-right">Total Paid</th>
+            <th class="text-right">Balance</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="party-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let data = [];
+try {
+  data = JSON.parse(localStorage.getItem('almsk_v3') || '[]');
+} catch(e) { data = []; }
+
+// Migrate old data
+['cs_data','alm_sk_v2'].forEach(key => {
+  try {
+    const old = JSON.parse(localStorage.getItem(key) || '[]');
+    if (old.length && !data.length) {
+      data = old.map(r => ({
+        id: r.id || Date.now(),
+        type: r.type || 'Buyer',
+        name: r.name || '',
+        contact: r.contact || '',
+        inv: r.inv || '',
+        date: r.date || '',
+        product: r.product || '',
+        qty: parseFloat(r.qty) || 0,
+        rate: parseFloat(r.rate) || 0,
+        amount: parseFloat(r.amount) || 0,
+        paid: parseFloat(r.paid) || 0,
+        method: r.method || '',
+        ref: r.ref || '',
+        notes: r.notes || ''
+      }));
+      persist();
+    }
+  } catch(e) {}
+});
+
+let currentType = 'Buyer';
+
+function switchTab(t) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + t).classList.add('active');
+  document.querySelectorAll('.tab')[['add','list','summary'].indexOf(t)].classList.add('active');
+  if (t === 'list') renderList();
+  if (t === 'summary') renderSummary();
+  updateHeader();
+  updateNameList();
+}
+
+function setType(t) {
+  currentType = t;
+  document.getElementById('f-type').value = t;
+  document.getElementById('btn-buyer').className = 'type-btn' + (t === 'Buyer' ? ' active-buyer' : '');
+  document.getElementById('btn-supplier').className = 'type-btn' + (t === 'Supplier' ? ' active-supplier' : '');
+  document.getElementById('paid-lbl').textContent = t === 'Buyer' ? 'Amount Received (Rs)' : 'Amount Paid (Rs)';
+}
+
+function calcTotal() {
+  const rate = parseFloat(document.getElementById('f-rate').value) || 0;
+  const qty = parseFloat(document.getElementById('f-qty').value) || 0;
+  if (rate && qty) {
+    document.getElementById('f-amount').value = (rate * qty).toFixed(2);
+  }
+}
+
+function saveRecord() {
+  const name = document.getElementById('f-name').value.trim();
+  if (!name) { alert('Please enter a party name.'); return; }
+  const amount = parseFloat(document.getElementById('f-amount').value) || 0;
+  const paid = parseFloat(document.getElementById('f-paid').value) || 0;
+  const rec = {
+    id: Date.now(),
+    type: document.getElementById('f-type').value,
+    name,
+    contact: document.getElementById('f-contact').value.trim(),
+    inv: document.getElementById('f-inv').value.trim(),
+    date: document.getElementById('f-date').value,
+    product: document.getElementById('f-product').value.trim(),
+    qty: parseFloat(document.getElementById('f-qty').value) || 0,
+    rate: parseFloat(document.getElementById('f-rate').value) || 0,
+    amount, paid,
+    method: document.getElementById('f-method').value,
+    ref: document.getElementById('f-ref').value.trim(),
+    notes: document.getElementById('f-notes').value.trim()
+  };
+  data.unshift(rec);
+  persist();
+  updateHeader();
+  updateNameList();
+  clearForm();
+  // Show brief success feedback
+  const btn = document.querySelector('.btn-primary');
+  const orig = btn.textContent;
+  btn.textContent = '✓ Saved!';
+  btn.style.background = 'var(--green)';
+  setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 1500);
+}
+
+function clearForm() {
+  ['f-name','f-contact','f-inv','f-amount','f-paid','f-product','f-qty','f-rate','f-ref','f-notes'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('f-method').value = '';
+  document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+  setType('Buyer');
+  // Auto-increment invoice number
+  const lastInv = data.find(r => r.inv && r.inv.match(/\d+/));
+  if (lastInv) {
+    const match = lastInv.inv.match(/(\D*)(\d+)(.*)/) ;
+    if (match) {
+      const next = String(parseInt(match[2]) + 1).padStart(match[2].length, '0');
+      document.getElementById('f-inv').value = match[1] + next + match[3];
+    }
+  } else {
+    document.getElementById('f-inv').value = 'INV-001';
+  }
+}
+
+function deleteRecord(id) {
+  if (!confirm('Delete this record? This cannot be undone.')) return;
+  data = data.filter(r => r.id !== id);
+  persist();
+  updateHeader();
+  renderList();
+}
+
+function persist() {
+  localStorage.setItem('almsk_v3', JSON.stringify(data));
+}
+
+function status(amount, paid) {
+  if (paid <= 0) return 'Unpaid';
+  if (paid >= amount) return 'Paid';
+  return 'Partial';
+}
+
+function statusBadge(s) {
+  const cls = s === 'Paid' ? 'badge-paid' : s === 'Partial' ? 'badge-partial' : 'badge-unpaid';
+  return `<span class="badge ${cls}">${s === 'Paid' ? '✓ Paid' : s === 'Partial' ? '◑ Partial' : '○ Unpaid'}</span>`;
+}
+
+function fmt(n) {
+  return 'Rs ' + Math.round(n).toLocaleString('en-IN');
+}
+function fmtKg(n) {
+  return n ? n.toLocaleString('en-IN', {maximumFractionDigits: 2}) + ' kg' : '—';
+}
+
+function renderList() {
+  const q = document.getElementById('f-search').value.toLowerCase();
+  const ft = document.getElementById('f-ftype').value;
+  const fs = document.getElementById('f-fstatus').value;
+  const fm = document.getElementById('f-fmonth').value;
+
+  const rows = data.filter(r => {
+    const st = status(r.amount, r.paid);
+    if (ft && r.type !== ft) return false;
+    if (fs && st !== fs) return false;
+    if (fm && !r.date.startsWith(fm)) return false;
+    if (q && !([r.name, r.inv, r.product, r.contact].join(' ').toLowerCase().includes(q))) return false;
+    return true;
+  });
+
+  const body = document.getElementById('records-body');
+  document.getElementById('list-empty').style.display = rows.length ? 'none' : '';
+
+  if (!rows.length) { body.innerHTML = ''; return; }
+
+  body.innerHTML = rows.map((r, i) => {
+    const bal = r.amount - r.paid;
+    const st = status(r.amount, r.paid);
+    return `<tr class="${st === 'Paid' ? 'row-paid' : ''}">
+      <td class="text-muted mono">${rows.length - i}</td>
+      <td class="mono" style="font-size:12px;">${r.date || '—'}</td>
+      <td><span class="badge ${r.type === 'Buyer' ? 'badge-buyer' : 'badge-supplier'}">${r.type === 'Buyer' ? '🛒' : '📦'} ${r.type}</span></td>
+      <td>
+        <div style="font-weight:500;">${r.name}</div>
+        ${r.contact ? `<div class="text-muted">${r.contact}</div>` : ''}
+      </td>
+      <td class="mono" style="font-size:12px;">${r.inv || '—'}</td>
+      <td>${r.product || '—'}</td>
+      <td class="mono">${fmtKg(r.qty)}</td>
+      <td class="mono text-right">${fmt(r.amount)}</td>
+      <td class="mono text-right text-green">${fmt(r.paid)}</td>
+      <td class="mono text-right ${bal > 0 ? 'text-amber' : 'text-green'}">${fmt(bal)}</td>
+      <td>${statusBadge(st)}</td>
+      <td style="font-size:12px;">${r.method || '—'}${r.ref ? `<br><span class="text-muted">${r.ref}</span>` : ''}</td>
+      <td class="no-print"><button class="del-btn" onclick="deleteRecord(${r.id})">Delete</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function renderSummary() {
+  const buyers = data.filter(r => r.type === 'Buyer');
+  const sups = data.filter(r => r.type === 'Supplier');
+  const sumAmt = arr => arr.reduce((a, r) => a + (r.amount || 0), 0);
+  const sumPaid = arr => arr.reduce((a, r) => a + (r.paid || 0), 0);
+
+  document.getElementById('s-count').textContent = data.length;
+  document.getElementById('s-buyer-inv').textContent = fmt(sumAmt(buyers));
+  document.getElementById('s-buyer-paid').textContent = fmt(sumPaid(buyers));
+  document.getElementById('s-buyer-bal').textContent = fmt(sumAmt(buyers) - sumPaid(buyers));
+  document.getElementById('s-sup-inv').textContent = fmt(sumAmt(sups));
+  document.getElementById('s-sup-bal').textContent = fmt(sumAmt(sups) - sumPaid(sups));
+
+  const parties = {};
+  data.forEach(r => {
+    const k = r.name + '|' + r.type;
+    if (!parties[k]) parties[k] = { name: r.name, type: r.type, contact: r.contact, count: 0, kg: 0, total: 0, paid: 0 };
+    parties[k].count++;
+    parties[k].kg += r.qty || 0;
+    parties[k].total += r.amount || 0;
+    parties[k].paid += r.paid || 0;
+  });
+
+  document.getElementById('party-tbody').innerHTML = Object.values(parties)
+    .sort((a, b) => (b.total - b.paid) - (a.total - a.paid))
+    .map(p => {
+      const bal = p.total - p.paid;
+      const st = bal <= 0 ? 'Paid' : p.paid > 0 ? 'Partial' : 'Unpaid';
+      return `<tr>
+        <td style="font-weight:500;">${p.name}</td>
+        <td><span class="badge ${p.type === 'Buyer' ? 'badge-buyer' : 'badge-supplier'}">${p.type}</span></td>
+        <td class="text-muted">${p.contact || '—'}</td>
+        <td class="mono">${p.count}</td>
+        <td class="mono">${fmtKg(p.kg)}</td>
+        <td class="mono text-right">${fmt(p.total)}</td>
+        <td class="mono text-right text-green">${fmt(p.paid)}</td>
+        <td class="mono text-right ${bal > 0 ? 'text-amber' : 'text-green'}">${fmt(bal)}</td>
+        <td>${statusBadge(st)}</td>
+      </tr>`;
+    }).join('');
+}
+
+function updateHeader() {
+  const buyers = data.filter(r => r.type === 'Buyer');
+  const sups = data.filter(r => r.type === 'Supplier');
+  const sumAmt = arr => arr.reduce((a, r) => a + (r.amount || 0), 0);
+  const sumPaid = arr => arr.reduce((a, r) => a + (r.paid || 0), 0);
+  document.getElementById('h-total').textContent = data.length;
+  document.getElementById('h-receivable').textContent = fmt(sumAmt(buyers) - sumPaid(buyers));
+  document.getElementById('h-payable').textContent = fmt(sumAmt(sups) - sumPaid(sups));
+}
+
+function updateNameList() {
+  const names = [...new Set(data.map(r => r.name))];
+  document.getElementById('name-list').innerHTML = names.map(n => `<option value="${n}">`).join('');
+}
+
+function exportCSV() {
+  const headers = ['Date','Type','Name','Contact','Invoice','Product','Qty(Kg)','Rate','Amount','Paid','Balance','Status','Method','Ref','Notes'];
+  const rows = data.map(r => {
+    const bal = r.amount - r.paid;
+    const st = status(r.amount, r.paid);
+    return [r.date, r.type, r.name, r.contact, r.inv, r.product, r.qty, r.rate, r.amount, r.paid, bal, st, r.method, r.ref, r.notes]
+      .map(v => `"${(v || '').toString().replace(/"/g, '""')}"`).join(',');
+  });
+  const csv = [headers.join(','), ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,\uFEFF' + encodeURIComponent(csv);
+  a.download = 'ALM_SK_Cashews_' + new Date().toISOString().split('T')[0] + '.csv';
+  a.click();
+}
+
+// Init
+document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+clearForm();
+updateHeader();
+updateNameList();
+</script>
+</body>
+</html>
