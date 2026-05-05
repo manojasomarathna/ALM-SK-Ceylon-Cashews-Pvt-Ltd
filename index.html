@@ -797,52 +797,61 @@ html{scroll-behavior:smooth}
 </footer>
 
 <script>
-// ✅ DYNAMIC PRICE LIST
-var PRICE_PRODUCTS = [
-  {key:'w180', name:'Raw Cashews', grade:'W180', unit:'per kg'},
-  {key:'w210', name:'Raw Cashews', grade:'W210', unit:'per kg'},
-  {key:'w240', name:'Raw Cashews', grade:'W240', unit:'per kg'},
-  {key:'w320', name:'Raw Cashews', grade:'W320', unit:'per kg'},
-  {key:'w450', name:'Raw Cashews', grade:'W450', unit:'per kg'},
-  {key:'roasted', name:'Roasted Cashews', grade:'Lightly Salted', unit:'per kg'},
-  {key:'spicy', name:'Flavored Cashews', grade:'Spicy', unit:'per 100g'},
-  {key:'honey', name:'Flavored Cashews', grade:'Honey Glazed', unit:'per 100g'},
-  {key:'butter', name:'Flavored Cashews', grade:'Salted Butter', unit:'per 100g'},
-];
+// ✅ DYNAMIC PRICE LIST - Google Sheets
+var SHEET_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQMA6pOE4y_7kwBeaLSXWntDW7tj6SpyNkeZucA6dtDF-dy1QFDRWbi5PSooKLiERXcf95MTOYJjHle/pub?output=csv';
+
+function parseCSV(text){
+  var lines = text.trim().split('\n');
+  var headers = lines[0].split(',').map(function(h){return h.trim().replace(/"/g,'');});
+  return lines.slice(1).map(function(line){
+    var vals = line.split(',').map(function(v){return v.trim().replace(/"/g,'');});
+    var obj = {};
+    headers.forEach(function(h,i){ obj[h] = vals[i] || ''; });
+    return obj;
+  });
+}
 
 function loadPriceTable(){
-  var prices = JSON.parse(localStorage.getItem('alm_prices') || '{}');
-  var updated = prices['_updated'] || null;
   var tbody = document.getElementById('price-table-body');
   var upEl = document.getElementById('price-updated');
   if(!tbody) return;
-  if(updated && upEl) upEl.textContent = '🕒 Prices updated: ' + updated;
-  var html = '';
-  PRICE_PRODUCTS.forEach(function(p, i){
-    var price = prices[p.key];
-    var avail = prices[p.key+'_avail'] || 'available';
-    var priceText = price ? 'Rs ' + parseInt(price).toLocaleString('en-IN') : 'Call Us';
-    var statusHtml = avail==='available'
-      ? '<span style="background:#e6f9ee;color:#1a7a3a;padding:3px 10px;border-radius:20px;font-size:12px">✅ Available</span>'
-      : avail==='limited'
-      ? '<span style="background:#fff3cd;color:#856404;padding:3px 10px;border-radius:20px;font-size:12px">⚠️ Limited</span>'
-      : '<span style="background:#fde;color:#c00;padding:3px 10px;border-radius:20px;font-size:12px">❌ Unavailable</span>';
-    var bg = i%2===0 ? '#fff' : '#fdf6ed';
-    var orderBtn = avail!=='unavailable'
-      ? '<button onclick="orderProduct(\''+p.name+' '+p.grade+'\')" style="background:#c8960c;color:#1c0d00;border:none;padding:6px 14px;border-radius:4px;cursor:pointer;font-size:13px">Order</button>'
-      : '<span style="color:#ccc;font-size:13px">-</span>';
-    html += '<tr style="border-bottom:0.5px solid #f0e4d0;background:'+bg+'">';
-    html += '<td style="padding:12px 20px;font-weight:500;color:#2a1200">'+p.name+'</td>';
-    html += '<td style="padding:12px 20px;color:#8a5828">'+p.grade+'<br><span style="font-size:11px;color:#aaa">'+p.unit+'</span></td>';
-    html += '<td style="padding:12px 20px;text-align:right;color:#c8960c;font-weight:700;font-size:16px">'+priceText+'</td>';
-    html += '<td style="padding:12px 20px;text-align:center">'+statusHtml+'</td>';
-    html += '<td style="padding:12px 20px;text-align:center">'+orderBtn+'</td>';
-    html += '</tr>';
-  });
-  tbody.innerHTML = html;
+  tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:#8a5828">⏳ Loading prices...</td></tr>';
+  fetch(SHEET_CSV + '&t=' + Date.now())
+    .then(function(r){ return r.text(); })
+    .then(function(csv){
+      var rows = parseCSV(csv);
+      if(upEl) upEl.textContent = '🕒 Updated: ' + new Date().toLocaleString('en-LK');
+      var html = '';
+      rows.forEach(function(p, i){
+        if(!p.key) return;
+        var price = p.price && p.price !== '' ? 'Rs ' + parseInt(p.price).toLocaleString('en-IN') : 'Call Us';
+        var avail = (p.status || 'available').toLowerCase();
+        var statusHtml = avail==='available'
+          ? '<span style="background:#e6f9ee;color:#1a7a3a;padding:3px 10px;border-radius:20px;font-size:12px">✅ Available</span>'
+          : avail==='limited'
+          ? '<span style="background:#fff3cd;color:#856404;padding:3px 10px;border-radius:20px;font-size:12px">⚠️ Limited</span>'
+          : '<span style="background:#fde;color:#c00;padding:3px 10px;border-radius:20px;font-size:12px">❌ Unavailable</span>';
+        var bg = i%2===0 ? '#fff' : '#fdf6ed';
+        var orderBtn = avail!=='unavailable'
+          ? '<button onclick="orderProduct(\''+p.name+' '+p.grade+'\')" style="background:#c8960c;color:#1c0d00;border:none;padding:6px 14px;border-radius:4px;cursor:pointer;font-size:13px">Order</button>'
+          : '<span style="color:#ccc;font-size:13px">-</span>';
+        html += '<tr style="border-bottom:0.5px solid #f0e4d0;background:'+bg+'">';
+        html += '<td style="padding:12px 20px;font-weight:500;color:#2a1200">'+p.name+'</td>';
+        html += '<td style="padding:12px 20px;color:#8a5828">'+p.grade+'<br><span style="font-size:11px;color:#aaa">'+p.unit+'</span></td>';
+        html += '<td style="padding:12px 20px;text-align:right;color:#c8960c;font-weight:700;font-size:16px">'+price+'</td>';
+        html += '<td style="padding:12px 20px;text-align:center">'+statusHtml+'</td>';
+        html += '<td style="padding:12px 20px;text-align:center">'+orderBtn+'</td>';
+        html += '</tr>';
+      });
+      tbody.innerHTML = html || '<tr><td colspan="5" style="text-align:center;padding:20px;color:#8a5828">No prices available</td></tr>';
+    })
+    .catch(function(){
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:#8a5828">📞 Call <a href="tel:+94783819650" style="color:#c8960c">+94 78 381 9650</a> for prices</td></tr>';
+    });
 }
 document.addEventListener('DOMContentLoaded', loadPriceTable);
-window.addEventListener('storage', loadPriceTable);
+// Refresh every 5 minutes
+setInterval(loadPriceTable, 300000);
 
 function orderProduct(product){
   document.getElementById('order').scrollIntoView({behavior:'smooth'});
