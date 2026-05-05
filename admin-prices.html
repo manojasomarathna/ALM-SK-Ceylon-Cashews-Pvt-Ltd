@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Price Admin — ALM SK Ceylon Cashews</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#1c0d00;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:#2a1200;border:1px solid rgba(200,150,12,0.3);border-radius:14px;padding:2rem;width:100%;max-width:500px}
+h1{color:#c8960c;font-size:1.3rem;margin-bottom:0.25rem}
+.sub{color:#a07848;font-size:13px;margin-bottom:1.5rem}
+.login-box input{width:100%;padding:10px 14px;background:#1c0d00;border:1px solid rgba(200,150,12,0.3);border-radius:8px;color:#f5e6c8;font-size:15px;margin-bottom:10px}
+.btn{width:100%;background:#c8960c;color:#1c0d00;border:none;padding:11px;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer}
+.btn:hover{background:#e0aa14}
+#admin-panel{display:none}
+.price-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center;margin-bottom:10px}
+.price-row label{color:#c8a878;font-size:13px;grid-column:1/-1;margin-bottom:-4px}
+.price-row input{padding:9px 12px;background:#1c0d00;border:1px solid rgba(200,150,12,0.3);border-radius:6px;color:#f5e6c8;font-size:14px}
+.price-row select{padding:9px 12px;background:#1c0d00;border:1px solid rgba(200,150,12,0.3);border-radius:6px;color:#f5e6c8;font-size:14px}
+.divider{border:none;border-top:1px solid rgba(200,150,12,0.15);margin:1.25rem 0}
+.success{background:rgba(37,211,102,0.15);border:1px solid #25D366;border-radius:8px;padding:12px;text-align:center;color:#25D366;font-size:14px;margin-top:10px;display:none}
+.last-update{color:#6a4020;font-size:12px;text-align:center;margin-top:8px}
+.logout{background:transparent;color:#6a4020;border:1px solid #4a2810;padding:7px 16px;border-radius:6px;cursor:pointer;font-size:13px;float:right}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:0.25rem">
+    <span style="font-size:28px">🥜</span>
+    <div>
+      <h1>Price Admin Panel</h1>
+      <div class="sub">ALM SK Ceylon Cashews (Pvt) Ltd</div>
+    </div>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="login-box">
+    <hr class="divider">
+    <p style="color:#c8a878;font-size:14px;margin-bottom:12px">🔐 Admin Login</p>
+    <div class="login-box">
+      <input type="password" id="pwd" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')login()">
+      <button class="btn" onclick="login()">Login</button>
+    </div>
+    <p id="login-err" style="color:#e05050;font-size:13px;margin-top:8px;display:none">❌ Wrong password</p>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div id="admin-panel">
+    <hr class="divider">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <p style="color:#c8a878;font-size:14px">💰 Update Prices (Rs per kg)</p>
+      <button class="logout" onclick="logout()">Logout</button>
+    </div>
+
+    <div id="price-fields"></div>
+
+    <hr class="divider">
+    <button class="btn" onclick="savePrices()">💾 Save & Update Website</button>
+    <div class="success" id="save-success">✅ Prices updated! Website will show new prices.</div>
+    <div class="last-update" id="last-update"></div>
+  </div>
+</div>
+
+<script>
+const ADMIN_PASSWORD = 'almsk2025';
+
+const PRODUCTS = [
+  {key:'w180', label:'Raw Cashews W180', unit:'per kg'},
+  {key:'w210', label:'Raw Cashews W210', unit:'per kg'},
+  {key:'w240', label:'Raw Cashews W240', unit:'per kg'},
+  {key:'w320', label:'Raw Cashews W320', unit:'per kg'},
+  {key:'w450', label:'Raw Cashews W450', unit:'per kg'},
+  {key:'roasted', label:'Roasted Cashews', unit:'per kg'},
+  {key:'spicy', label:'Flavored - Spicy', unit:'per 100g pack'},
+  {key:'honey', label:'Flavored - Honey Glazed', unit:'per 100g pack'},
+  {key:'butter', label:'Flavored - Salted Butter', unit:'per 100g pack'},
+];
+
+function login(){
+  var pwd = document.getElementById('pwd').value;
+  if(pwd === ADMIN_PASSWORD){
+    document.getElementById('login-box').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    loadPrices();
+  } else {
+    document.getElementById('login-err').style.display = 'block';
+  }
+}
+
+function logout(){
+  document.getElementById('login-box').style.display = 'block';
+  document.getElementById('admin-panel').style.display = 'none';
+  document.getElementById('pwd').value = '';
+}
+
+function loadPrices(){
+  var prices = JSON.parse(localStorage.getItem('alm_prices') || '{}');
+  var html = '';
+  PRODUCTS.forEach(function(p){
+    var val = prices[p.key] || '';
+    var avail = prices[p.key+'_avail'] !== undefined ? prices[p.key+'_avail'] : 'available';
+    html += '<div class="price-row">';
+    html += '<label>'+p.label+' <span style="color:#6a4020">('+p.unit+')</span></label>';
+    html += '<input type="number" id="p_'+p.key+'" placeholder="e.g. 1800" value="'+val+'" min="0">';
+    html += '<select id="a_'+p.key+'">';
+    html += '<option value="available"'+(avail==='available'?' selected':'')+'>✅ Available</option>';
+    html += '<option value="limited"'+(avail==='limited'?' selected':'')+'>⚠️ Limited</option>';
+    html += '<option value="unavailable"'+(avail==='unavailable'?' selected':'')+'>❌ Unavailable</option>';
+    html += '</select>';
+    html += '</div>';
+  });
+  document.getElementById('price-fields').innerHTML = html;
+
+  var last = localStorage.getItem('alm_prices_updated');
+  if(last) document.getElementById('last-update').textContent = 'Last updated: ' + last;
+}
+
+function savePrices(){
+  var prices = {};
+  PRODUCTS.forEach(function(p){
+    var val = document.getElementById('p_'+p.key).value;
+    var avail = document.getElementById('a_'+p.key).value;
+    if(val) prices[p.key] = val;
+    prices[p.key+'_avail'] = avail;
+  });
+  var now = new Date().toLocaleString('en-LK');
+  prices['_updated'] = now;
+  localStorage.setItem('alm_prices', JSON.stringify(prices));
+  localStorage.setItem('alm_prices_updated', now);
+
+  document.getElementById('save-success').style.display = 'block';
+  document.getElementById('last-update').textContent = 'Last updated: ' + now;
+  setTimeout(function(){ document.getElementById('save-success').style.display='none'; }, 3000);
+}
+</script>
+</body>
+</html>
