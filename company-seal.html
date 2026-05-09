@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Company Seal — ALM SK Ceylon Cashews</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Times New Roman',serif;background:#eee;display:flex;flex-direction:column;align-items:center;padding:30px}
+
+.controls{background:#2a1200;padding:12px 24px;display:flex;gap:10px;align-items:center;width:100%;max-width:700px;border-radius:8px;margin-bottom:24px}
+.controls button{background:#c8960c;color:#1a0800;border:none;padding:8px 22px;border-radius:4px;font-size:13px;font-weight:700;cursor:pointer}
+.controls span{color:#c8a878;font-size:12px}
+
+.page{width:210mm;height:297mm;background:#fff;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12mm;padding:20mm;box-shadow:0 4px 24px rgba(0,0,0,0.15)}
+
+.seal{width:50mm;height:50mm;border-radius:50%;border:2.5px solid #2a1200;position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#fff}
+
+/* Outer ring */
+.seal::before{content:'';position:absolute;inset:2px;border-radius:50%;border:1px solid #2a1200}
+
+/* Inner ring */
+.seal::after{content:'';position:absolute;inset:8px;border-radius:50%;border:1px dashed #c8960c}
+
+.seal-logo{width:42px;height:42px;object-fit:contain;border-radius:50%;margin-bottom:2px}
+.seal-name{font-size:6pt;font-weight:700;color:#2a1200;text-align:center;line-height:1.3;letter-spacing:0.03em;padding:0 8mm}
+.seal-divider{width:20mm;height:0.5px;background:#c8960c;margin:2px 0}
+.seal-location{font-size:5pt;color:#7a5030;text-align:center;line-height:1.4;padding:0 6mm}
+.seal-phone{font-size:5.5pt;font-weight:700;color:#2a1200;margin-top:2px}
+
+/* Curved top text */
+.seal-curved{position:absolute;width:100%;height:100%;top:0;left:0}
+
+@media print{
+  body{background:#fff;padding:0}
+  .controls{display:none}
+  .page{margin:0;box-shadow:none;width:210mm;height:297mm}
+}
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <img src="Logo.png" style="width:28px;height:28px;border-radius:50%;object-fit:contain">
+  <span style="color:#f5e6c8;font-weight:700;font-size:14px">Company Seal — ALM SK Ceylon Cashews</span>
+  <button onclick="window.print()">🖨 Print</button>
+  <span>A4 · Print Backgrounds ON · Rubber stamp shop ekata denna</span>
+</div>
+
+<div class="page">
+
+  <!-- Seal 1 -->
+  <div class="seal">
+    <svg class="seal-curved" viewBox="0 0 200 200">
+      <!-- Top curved text -->
+      <path id="top-arc" d="M 30,100 A 70,70 0 0,1 170,100" fill="none"/>
+      <text font-size="13" font-family="Times New Roman" font-weight="700" fill="#2a1200" letter-spacing="2">
+        <textPath href="#top-arc" startOffset="10%">ALM SK CEYLON CASHEWS</textPath>
+      </text>
+      <!-- Bottom curved text -->
+      <path id="bot-arc" d="M 35,105 A 70,70 0 0,0 165,105" fill="none"/>
+      <text font-size="10" font-family="Times New Roman" fill="#7a5030" letter-spacing="1">
+        <textPath href="#bot-arc" startOffset="12%">KURUNEGALA · SRI LANKA</textPath>
+      </text>
+    </svg>
+    <img src="Logo.png" class="seal-logo" alt="Logo">
+    <div class="seal-divider"></div>
+    <div class="seal-location">Diulwewa, Anamaduwa</div>
+    <div class="seal-phone">+94 78 381 9650</div>
+  </div>
+
+  <!-- Seal 2 -->
+  <div class="seal">
+    <svg class="seal-curved" viewBox="0 0 200 200">
+      <path id="top-arc2" d="M 30,100 A 70,70 0 0,1 170,100" fill="none"/>
+      <text font-size="13" font-family="Times New Roman" font-weight="700" fill="#2a1200" letter-spacing="2">
+        <textPath href="#top-arc2" startOffset="10%">ALM SK CEYLON CASHEWS</textPath>
+      </text>
+      <path id="bot-arc2" d="M 35,105 A 70,70 0 0,0 165,105" fill="none"/>
+      <text font-size="10" font-family="Times New Roman" fill="#7a5030" letter-spacing="1">
+        <textPath href="#bot-arc2" startOffset="12%">KURUNEGALA · SRI LANKA</textPath>
+      </text>
+    </svg>
+    <img src="Logo.png" class="seal-logo" alt="Logo">
+    <div class="seal-divider"></div>
+    <div class="seal-location">Diulwewa, Anamaduwa</div>
+    <div class="seal-phone">+94 78 381 9650</div>
+  </div>
+
+  <!-- Seal 3 -->
+  <div class="seal">
+    <svg class="seal-curved" viewBox="0 0 200 200">
+      <path id="top-arc3" d="M 30,100 A 70,70 0 0,1 170,100" fill="none"/>
+      <text font-size="13" font-family="Times New Roman" font-weight="700" fill="#2a1200" letter-spacing="2">
+        <textPath href="#top-arc3" startOffset="10%">ALM SK CEYLON CASHEWS</textPath>
+      </text>
+      <path id="bot-arc3" d="M 35,105 A 70,70 0 0,0 165,105" fill="none"/>
+      <text font-size="10" font-family="Times New Roman" fill="#7a5030" letter-spacing="1">
+        <textPath href="#bot-arc3" startOffset="12%">KURUNEGALA · SRI LANKA</textPath>
+      </text>
+    </svg>
+    <img src="Logo.png" class="seal-logo" alt="Logo">
+    <div class="seal-divider"></div>
+    <div class="seal-location">Diulwewa, Anamaduwa</div>
+    <div class="seal-phone">+94 78 381 9650</div>
+  </div>
+
+  <!-- Seal 4 -->
+  <div class="seal">
+    <svg class="seal-curved" viewBox="0 0 200 200">
+      <path id="top-arc4" d="M 30,100 A 70,70 0 0,1 170,100" fill="none"/>
+      <text font-size="13" font-family="Times New Roman" font-weight="700" fill="#2a1200" letter-spacing="2">
+        <textPath href="#top-arc4" startOffset="10%">ALM SK CEYLON CASHEWS</textPath>
+      </text>
+      <path id="bot-arc4" d="M 35,105 A 70,70 0 0,0 165,105" fill="none"/>
+      <text font-size="10" font-family="Times New Roman" fill="#7a5030" letter-spacing="1">
+        <textPath href="#bot-arc4" startOffset="12%">KURUNEGALA · SRI LANKA</textPath>
+      </text>
+    </svg>
+    <img src="Logo.png" class="seal-logo" alt="Logo">
+    <div class="seal-divider"></div>
+    <div class="seal-location">Diulwewa, Anamaduwa</div>
+    <div class="seal-phone">+94 78 381 9650</div>
+  </div>
+
+  <!-- Seal 5 -->
+  <div class="seal">
+    <svg class="seal-curved" viewBox="0 0 200 200">
+      <path id="top-arc5" d="M 30,100 A 70,70 0 0,1 170,100" fill="none"/>
+      <text font-size="13" font-family="Times New Roman" font-weight="700" fill="#2a1200" letter-spacing="2">
+        <textPath href="#top-arc5" startOffset="10%">ALM SK CEYLON CASHEWS</textPath>
+      </text>
+      <path id="bot-arc5" d="M 35,105 A 70,70 0 0,0 165,105" fill="none"/>
+      <text font-size="10" font-family="Times New Roman" fill="#7a5030" letter-spacing="1">
+        <textPath href="#bot-arc5" startOffset="12%">KURUNEGALA · SRI LANKA</textPath>
+      </text>
+    </svg>
+    <img src="Logo.png" class="seal-logo" alt="Logo">
+    <div class="seal-divider"></div>
+    <div class="seal-location">Diulwewa, Anamaduwa</div>
+    <div class="seal-phone">+94 78 381 9650</div>
+  </div>
+
+  <!-- Seal 6 -->
+  <div class="seal">
+    <svg class="seal-curved" viewBox="0 0 200 200">
+      <path id="top-arc6" d="M 30,100 A 70,70 0 0,1 170,100" fill="none"/>
+      <text font-size="13" font-family="Times New Roman" font-weight="700" fill="#2a1200" letter-spacing="2">
+        <textPath href="#top-arc6" startOffset="10%">ALM SK CEYLON CASHEWS</textPath>
+      </text>
+      <path id="bot-arc6" d="M 35,105 A 70,70 0 0,0 165,105" fill="none"/>
+      <text font-size="10" font-family="Times New Roman" fill="#7a5030" letter-spacing="1">
+        <textPath href="#bot-arc6" startOffset="12%">KURUNEGALA · SRI LANKA</textPath>
+      </text>
+    </svg>
+    <img src="Logo.png" class="seal-logo" alt="Logo">
+    <div class="seal-divider"></div>
+    <div class="seal-location">Diulwewa, Anamaduwa</div>
+    <div class="seal-phone">+94 78 381 9650</div>
+  </div>
+
+</div>
+</body>
+</html>
