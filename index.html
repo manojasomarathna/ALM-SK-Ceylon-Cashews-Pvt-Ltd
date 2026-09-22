@@ -813,7 +813,16 @@ function loadPriceTable(){
           ? '<button onclick="orderProduct(\''+p.name+' '+p.grade+'\')" style="background:#c8960c;color:#1c0d00;border:none;padding:6px 14px;border-radius:4px;cursor:pointer;font-size:13px">Order</button>'
           : '<span style="color:#ccc;font-size:13px">-</span>';
         html += '<tr style="border-bottom:0.5px solid #f0e4d0;background:'+bg+'">';
-        html += '<td style="padding:12px 20px;font-weight:500;color:#2a1200">'+p.name+'</td>';
+        var sinhalaNames = {
+          'Raw Cashews': 'ඉලාගා කජු',
+          'Roasted Cashews': 'ඔවෙන් කළ කජු',
+          'Flavored Cashews': 'රස කළ කජු',
+          'Full Nut': 'ෆුල් නට්',
+          'Broken Nut': 'පියලි',
+          'Split Nut': 'කෙලි'
+        };
+        var sinhala = sinhalaNames[p.name] || '';
+        html += '<td style="padding:12px 20px;font-weight:500;color:#2a1200">'+p.name+(sinhala?'<br><span style="font-size:12px;color:#8a5828">'+sinhala+'</span>':'')+'</td>';
         html += '<td style="padding:12px 20px;color:#8a5828">'+p.grade+'<br><span style="font-size:11px;color:#aaa">'+p.unit+'</span></td>';
         html += '<td style="padding:12px 20px;text-align:right;color:#c8960c;font-weight:700;font-size:16px">'+price+'</td>';
         html += '<td style="padding:12px 20px;text-align:center">'+statusHtml+'</td>';
