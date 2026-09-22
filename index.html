@@ -703,41 +703,36 @@ html{scroll-behavior:smooth}
       <p style="color:#c8a878">Trusted by families and businesses across Sri Lanka and beyond</p>
     </div>
   </div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;max-width:820px;margin:0 auto">
-    <div style="background:#fff;border:0.5px solid #e8d4b0;border-radius:10px;padding:1.75rem">
-      <div style="color:#c8960c;font-size:18px;margin-bottom:0.75rem">★★★★★</div>
-      <p style="font-size:13px;color:#5a3818;line-height:1.8;margin-bottom:1rem">"The roasted cashews are absolutely amazing — perfectly golden and so fresh. Best cashews I've ever tasted from Sri Lanka!"</p>
-      <div style="display:flex;align-items:center;gap:10px">
-        <div style="width:36px;height:36px;background:#c8960c;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#1c0d00;font-weight:700;font-size:14px">N</div>
-        <div>
-          <div style="font-size:13px;font-weight:600;color:#2a1200">Nimal Perera</div>
-          <div style="font-size:11px;color:#8a5828">Colombo, Sri Lanka</div>
-        </div>
+
+  <!-- Review Form -->
+  <div style="max-width:520px;margin:0 auto 2.5rem;background:#fff;border:0.5px solid #e8d4b0;border-radius:12px;padding:1.75rem">
+    <h3 style="font-size:16px;font-weight:700;color:#2a1200;margin-bottom:1.25rem">✍️ Leave a Review</h3>
+    <div class="form-row">
+      <div>
+        <label class="f-label">Your Name</label>
+        <input class="f-input" id="rv-name" type="text" placeholder="e.g. Nimal Perera">
+      </div>
+      <div>
+        <label class="f-label">Location</label>
+        <input class="f-input" id="rv-loc" type="text" placeholder="e.g. Colombo">
       </div>
     </div>
-    <div style="background:#fff;border:0.5px solid #e8d4b0;border-radius:10px;padding:1.75rem">
-      <div style="color:#c8960c;font-size:18px;margin-bottom:0.75rem">★★★★★</div>
-      <p style="font-size:13px;color:#5a3818;line-height:1.8;margin-bottom:1rem">"We've been sourcing bulk cashews from ALM SK for our export business. Consistent quality, great pricing, and always on time. Highly recommended!"</p>
-      <div style="display:flex;align-items:center;gap:10px">
-        <div style="width:36px;height:36px;background:#c8960c;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#1c0d00;font-weight:700;font-size:14px">S</div>
-        <div>
-          <div style="font-size:13px;font-weight:600;color:#2a1200">Samantha Fernando</div>
-          <div style="font-size:11px;color:#8a5828">Export Buyer, Dubai</div>
-        </div>
+    <div style="margin-bottom:12px">
+      <label class="f-label">Rating</label>
+      <div id="rv-stars" style="display:flex;gap:6px;font-size:28px;cursor:pointer;margin-top:4px">
+        <span data-v="1">☆</span><span data-v="2">☆</span><span data-v="3">☆</span><span data-v="4">☆</span><span data-v="5">☆</span>
       </div>
     </div>
-    <div style="background:#fff;border:0.5px solid #e8d4b0;border-radius:10px;padding:1.75rem">
-      <div style="color:#c8960c;font-size:18px;margin-bottom:0.75rem">★★★★★</div>
-      <p style="font-size:13px;color:#5a3818;line-height:1.8;margin-bottom:1rem">"The spicy chilli &amp; lime flavored cashews are our family favourite! We order every month. The packaging is also very neat and fresh."</p>
-      <div style="display:flex;align-items:center;gap:10px">
-        <div style="width:36px;height:36px;background:#c8960c;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#1c0d00;font-weight:700;font-size:14px">K</div>
-        <div>
-          <div style="font-size:13px;font-weight:600;color:#2a1200">Kavindi Jayawardena</div>
-          <div style="font-size:11px;color:#8a5828">Kandy, Sri Lanka</div>
-        </div>
-      </div>
+    <div style="margin-bottom:12px">
+      <label class="f-label">Your Review</label>
+      <textarea class="f-textarea" id="rv-msg" placeholder="Share your experience with our cashews..."></textarea>
     </div>
+    <div id="rv-success" style="display:none;background:#e6f9ee;border:1px solid #25D366;border-radius:8px;padding:0.75rem;text-align:center;font-size:14px;color:#1a7a3a;margin-bottom:10px">✅ Thank you for your review!</div>
+    <button class="submit-btn" onclick="submitReview()">Submit Review</button>
   </div>
+
+  <!-- Reviews Display -->
+  <div id="reviews-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;max-width:820px;margin:0 auto"></div>
   </div>
 </section>
 
@@ -922,7 +917,58 @@ var heroObserver=new IntersectionObserver(function(entries){
 var heroSec=document.getElementById('home');
 if(heroSec)heroObserver.observe(heroSec);
 
-function sendInquiry(){
+// ✅ REVIEWS
+var DEFAULT_REVIEWS = [
+  {name:'Nimal Perera',loc:'Colombo, Sri Lanka',rating:5,msg:'The roasted cashews are absolutely amazing — perfectly golden and so fresh. Best cashews I\'ve ever tasted from Sri Lanka!'},
+  {name:'Samantha Fernando',loc:'Export Buyer, Dubai',rating:5,msg:'We\'ve been sourcing bulk cashews from Legacy Cashews for our export business. Consistent quality, great pricing, and always on time. Highly recommended!'},
+  {name:'Kavindi Jayawardena',loc:'Kandy, Sri Lanka',rating:5,msg:'The spicy chilli & lime flavored cashews are our family favourite! We order every month. The packaging is also very neat and fresh.'}
+];
+
+var rvRating = 0;
+document.getElementById('rv-stars').addEventListener('click', function(e){
+  if(e.target.dataset.v){
+    rvRating = parseInt(e.target.dataset.v);
+    var stars = document.querySelectorAll('#rv-stars span');
+    stars.forEach(function(s,i){ s.textContent = i < rvRating ? '★' : '☆'; s.style.color = i < rvRating ? '#c8960c' : '#ccc'; });
+  }
+});
+
+function renderReviews(){
+  var saved = JSON.parse(localStorage.getItem('alm_reviews') || '[]');
+  var all = DEFAULT_REVIEWS.concat(saved);
+  var grid = document.getElementById('reviews-grid');
+  grid.innerHTML = all.map(function(r){
+    var stars = '★'.repeat(r.rating) + '☆'.repeat(5-r.rating);
+    return '<div style="background:#fff;border:0.5px solid #e8d4b0;border-radius:10px;padding:1.75rem">'+
+      '<div style="color:#c8960c;font-size:18px;margin-bottom:0.75rem">'+stars+'</div>'+
+      '<p style="font-size:13px;color:#5a3818;line-height:1.8;margin-bottom:1rem">&ldquo;'+r.msg+'&rdquo;</p>'+
+      '<div style="display:flex;align-items:center;gap:10px">'+
+      '<div style="width:36px;height:36px;background:#c8960c;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#1c0d00;font-weight:700;font-size:14px">'+r.name.charAt(0)+'</div>'+
+      '<div><div style="font-size:13px;font-weight:600;color:#2a1200">'+r.name+'</div>'+
+      '<div style="font-size:11px;color:#8a5828">'+r.loc+'</div></div></div></div>';
+  }).join('');
+}
+
+function submitReview(){
+  var name = document.getElementById('rv-name').value.trim();
+  var loc = document.getElementById('rv-loc').value.trim();
+  var msg = document.getElementById('rv-msg').value.trim();
+  if(!name||!msg||rvRating===0){alert('Name, rating සහ review fill කරන්න.');return;}
+  var saved = JSON.parse(localStorage.getItem('alm_reviews') || '[]');
+  saved.push({name:name, loc:loc||'Sri Lanka', rating:rvRating, msg:msg});
+  localStorage.setItem('alm_reviews', JSON.stringify(saved));
+  document.getElementById('rv-name').value='';
+  document.getElementById('rv-loc').value='';
+  document.getElementById('rv-msg').value='';
+  rvRating=0;
+  document.querySelectorAll('#rv-stars span').forEach(function(s){s.textContent='☆';s.style.color=''});
+  document.getElementById('rv-success').style.display='block';
+  setTimeout(function(){document.getElementById('rv-success').style.display='none';},3000);
+  renderReviews();
+}
+
+document.addEventListener('DOMContentLoaded', renderReviews);
+
   var name=document.getElementById('f-name').value.trim();
   var email=document.getElementById('f-email').value.trim();
   var phone=document.getElementById('f-phone').value.trim();
